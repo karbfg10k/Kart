@@ -1,0 +1,355 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package hello;
+
+/**
+ *
+ * @author Karthik
+ */
+import java.awt.Color;
+import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.io.IOException;
+import static javax.swing.SwingConstants.*;
+import javax.swing.UIManager.*;
+
+public class Hello implements ActionListener {
+
+    JPanel textPanel, panelForTextFields, StatusPanel;
+    JLabel titleLabel, CRCLabel, HextoFloatLabel, FloattoHexLabel,
+            CRCStatusField, HextoFloatStatusField, FloattoHexStatusField,
+            CRCVal, CRCValStatus, ResultLabel, ChecksumField, ChecksumStatusField;
+    JTextField CRCField, HextoFloatField, FloattoHexField, CRCValField,
+            ResultField, CheckField;
+    JButton CRCConv, HextoFloatConv, FloattoHexConv, CRCValAcc, CallCalc,
+            CheckCalc;
+
+    public JPanel createContentPane() {
+
+        // We create a bottom JPanel to place everything on.
+        JPanel totalGUI = new JPanel();
+        totalGUI.setLayout(null);
+
+        titleLabel = new JLabel("Embedded Programmer's Utility");
+        titleLabel.setLocation(10, 0);
+        titleLabel.setSize(250, 30);
+        titleLabel.setHorizontalAlignment(LEFT);
+        totalGUI.add(titleLabel);
+
+        // Creation of a Panel to contain the JLabels
+        textPanel = new JPanel();
+        textPanel.setLayout(null);
+        textPanel.setLocation(10, 35);
+        textPanel.setSize(100, 240);
+        totalGUI.add(textPanel);
+
+        // CRC Calculator Label
+        CRCLabel = new JLabel("CRC Calculator");
+        CRCLabel.setLocation(0, 0);
+        CRCLabel.setSize(100, 40);
+        CRCLabel.setHorizontalAlignment(LEFT);
+        textPanel.add(CRCLabel);
+
+        // Hex to Decimal converter
+        HextoFloatLabel = new JLabel("Hex to Float");
+        HextoFloatLabel.setLocation(0, 40);
+        HextoFloatLabel.setSize(100, 40);
+        HextoFloatLabel.setHorizontalAlignment(LEFT);
+        textPanel.add(HextoFloatLabel);
+
+        //Float to Hex COnverter
+        FloattoHexLabel = new JLabel("Float to Hex");
+        FloattoHexLabel.setLocation(0, 80);
+        FloattoHexLabel.setSize(100, 40);
+        FloattoHexLabel.setHorizontalAlignment(LEFT);
+        textPanel.add(FloattoHexLabel);
+        
+        ChecksumField = new JLabel("Checksum");
+        ChecksumField.setLocation(0, 120);
+        ChecksumField.setSize(100, 40);
+        ChecksumField.setHorizontalAlignment(LEFT);
+        textPanel.add(ChecksumField);
+
+        CRCVal = new JLabel("CRC Value");
+        CRCVal.setLocation(0, 160);
+        CRCVal.setSize(100, 40);
+        CRCVal.setHorizontalAlignment(LEFT);
+        textPanel.add(CRCVal);
+
+        //Float to Hex COnverter
+        ResultLabel = new JLabel("Result");
+        ResultLabel.setLocation(0, 200);
+        ResultLabel.setSize(100, 40);
+        ResultLabel.setHorizontalAlignment(LEFT);
+        textPanel.add(ResultLabel);
+
+        panelForTextFields = new JPanel();
+        panelForTextFields.setLayout(null);
+        panelForTextFields.setLocation(110, 40);
+        panelForTextFields.setSize(200, 240);
+        totalGUI.add(panelForTextFields);
+
+        // CRC Textfield
+        CRCField = new JTextField();
+        CRCField.setLocation(0, 0);
+        CRCField.setSize(200, 30);
+        panelForTextFields.add(CRCField);
+
+        // HextoFloat Textfield
+        HextoFloatField = new JTextField();
+        HextoFloatField.setLocation(0, 40);
+        HextoFloatField.setSize(200, 30);
+        panelForTextFields.add(HextoFloatField);
+
+        // FloattoHex Textfield
+        FloattoHexField = new JTextField();
+        FloattoHexField.setLocation(0, 80);
+        FloattoHexField.setSize(200, 30);
+        panelForTextFields.add(FloattoHexField);
+
+        CheckField = new JTextField();
+        CheckField.setLocation(0, 120);
+        CheckField.setSize(200, 30);
+        panelForTextFields.add(CheckField);
+        
+        //For CRC Value
+        CRCValField = new JTextField();
+        CRCValField.setLocation(0, 160);
+        CRCValField.setSize(200, 30);
+        CRCValField.setText("A001");
+        panelForTextFields.add(CRCValField);
+
+        ResultField = new JTextField();
+        ResultField.setLocation(0, 200);
+        ResultField.setSize(200, 30);
+        panelForTextFields.add(ResultField);
+
+        //CRC Calulator Button
+        CRCConv = new JButton("Calculate");
+        CRCConv.setLocation(320, 40);
+        CRCConv.setSize(100, 30);
+        CRCConv.addActionListener(this);
+        totalGUI.add(CRCConv);
+
+        //Hex to Float Convert Button
+        HextoFloatConv = new JButton("Convert");
+        HextoFloatConv.setLocation(320, 80);
+        HextoFloatConv.setSize(100, 30);
+        HextoFloatConv.addActionListener(this);
+        totalGUI.add(HextoFloatConv);
+
+        //Float to Hex Convert Button
+        FloattoHexConv = new JButton("Convert");
+        FloattoHexConv.setLocation(320, 120);
+        FloattoHexConv.setSize(100, 30);
+        FloattoHexConv.addActionListener(this);
+        totalGUI.add(FloattoHexConv);
+        
+        CheckCalc = new JButton("Calculate");
+        CheckCalc.setLocation(320, 160);
+        CheckCalc.setSize(100, 30);
+        CheckCalc.addActionListener(this);
+        totalGUI.add(CheckCalc);
+
+        //CRC
+        CRCValAcc = new JButton("Use");
+        CRCValAcc.setLocation(320, 200);
+        CRCValAcc.setSize(100, 30);
+        CRCValAcc.addActionListener(this);
+        totalGUI.add(CRCValAcc);
+
+        //Call Calulator Button
+        CallCalc = new JButton("Calculator");
+        CallCalc.setLocation(5, 275);
+        CallCalc.setSize(100, 30);
+        CallCalc.addActionListener(this);
+        totalGUI.add(CallCalc);
+
+        //Input Status Field
+        StatusPanel = new JPanel();
+        StatusPanel.setLayout(null);
+        StatusPanel.setLocation(430, 40);
+        StatusPanel.setSize(100, 220);
+        totalGUI.add(StatusPanel);
+
+        CRCStatusField = new JLabel();
+        CRCStatusField.setLocation(0, 0);
+        CRCStatusField.setSize(50, 30);
+        StatusPanel.add(CRCStatusField);
+
+        HextoFloatStatusField = new JLabel();
+        HextoFloatStatusField.setLocation(0, 40);
+        HextoFloatStatusField.setSize(50, 30);
+        StatusPanel.add(HextoFloatStatusField);
+
+        FloattoHexStatusField = new JLabel();
+        FloattoHexStatusField.setLocation(0, 80);
+        FloattoHexStatusField.setSize(50, 30);
+        StatusPanel.add(FloattoHexStatusField);
+
+        ChecksumStatusField = new JLabel();
+        ChecksumStatusField.setLocation(0, 120);
+        ChecksumStatusField.setSize(50, 30);
+        StatusPanel.add(ChecksumStatusField);
+
+        CRCValStatus = new JLabel();
+        CRCValStatus.setLocation(0, 160);
+        CRCValStatus.setSize(50, 30);
+        StatusPanel.add(CRCValStatus);
+
+        totalGUI.setOpaque(true);
+        return totalGUI;
+    }
+
+    //Action listener implemetation
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        int CRC = -1;
+        if (e.getSource() == CRCConv) {
+            String out = (CRCField.getText()).replaceAll("\\s+", "");
+            int len = out.length();
+            CRCStatusField.setText("");
+            boolean check = out.matches("^[0-9A-Fa-f]+$");
+            if (check == false || len % 2 != 0) {
+                CRCStatusField.setForeground(Color.red);
+                CRCStatusField.setText("Invalid");
+            } else {
+                long temp1, temp2, bit;
+                long crc_result = 0xFFFF;
+                if (CRC < 0) {
+                    CRC = 0xA001;
+                }
+
+                for (int i = 0; i < len; i++) {
+                    temp1 = (Integer.parseInt(String.valueOf(out.charAt(i++)), 16)) * 16;
+                    temp2 = (Integer.parseInt(String.valueOf(out.charAt(i)), 16));
+                    temp1 = temp1 + temp2;
+                    crc_result ^= temp1;
+                    for (bit = 8; bit != 0; bit--) {
+
+                        if ((crc_result & 0x0001) != 0) {
+                            crc_result >>= 1;
+                            crc_result ^= CRC;
+                        } else {
+                            crc_result >>= 1;
+                        }
+                    }
+
+                }
+                temp1 = 0;
+                temp1 = (crc_result & 0xFF) * 256;
+                System.out.println(temp1);
+                crc_result >>= 8;
+                crc_result = crc_result | temp1;
+                ResultField.setText(Long.toHexString(crc_result));
+            }
+
+        } else if (e.getSource() == HextoFloatConv) {
+            String out = (HextoFloatField.getText()).replaceAll("\\s+", "");
+            HextoFloatStatusField.setText("");
+            boolean check = out.matches("^[0-9A-Fa-f]+$");
+            if (out.length() != 8 || check == false) {
+                HextoFloatStatusField.setForeground(Color.red);
+                HextoFloatStatusField.setText("Invalid");
+            } else {
+                int bit = (int) (Long.parseLong(out, 16));
+                Float result = Float.intBitsToFloat(bit);
+                ResultField.setText(result.toString());
+            }
+        } else if (e.getSource() == FloattoHexConv) {
+            FloattoHexStatusField.setText("");
+            String out = (FloattoHexField.getText()).replaceAll("\\s+", "");
+            try {
+                Float result = Float.parseFloat(out);
+                String res = Integer.toHexString(Float.floatToIntBits(result)).toUpperCase();
+                ResultField.setText(res);
+
+            } catch (NumberFormatException ex) {
+                FloattoHexStatusField.setForeground(Color.red);
+                FloattoHexStatusField.setText("Invalid");
+            }
+
+        } else if (e.getSource() == CheckCalc) {
+            ChecksumStatusField.setText("");
+            String out = CheckField.getText().replaceAll("\\s+", "");
+            int len = out.length();
+            boolean check = out.matches("^[0-9A-Fa-f]+$");
+            if (check == false || len % 2 != 0) {
+                ChecksumStatusField.setForeground(Color.red);
+                ChecksumStatusField.setText("Invalid");
+            } else {
+                int temp1,temp2,checksum=0;
+                for(int i=0;i<len;i++){
+                    temp1 = (Integer.parseInt(String.valueOf(out.charAt(i++)), 16)) * 16;
+                    temp2 = (Integer.parseInt(String.valueOf(out.charAt(i)), 16));
+                    temp1 = temp1 + temp2;
+                    checksum ^= temp1;
+                }
+                ResultField.setText(Integer.toHexString(checksum));
+
+            }
+
+        } else if (e.getSource() == CallCalc) {
+            try {
+                Runtime.getRuntime().exec("calc");
+            } catch (IOException ex) {
+                System.exit(0);
+            }
+
+        } else if (e.getSource() == CRCValAcc) {
+            String out = CRCValField.getText();
+            boolean check = out.matches("^[0-9A-Fa-f]+$");
+            CRCValStatus.setText("");
+            if (out.length() != 4 || check == false) {
+                CRCValStatus.setForeground(Color.red);
+                CRCValStatus.setText("Invalid");
+            } else {
+                CRC = Integer.parseInt(out, 16);
+                CRCValStatus.setForeground(Color.BLUE);
+                CRCValStatus.setText("Accepted");
+            }
+        }
+
+    }
+
+    private static void createAndShowGUI() {
+        try {
+
+            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                } else {
+                    UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+                }
+            }
+
+        } catch (ClassNotFoundException | InstantiationException |
+                IllegalAccessException | UnsupportedLookAndFeelException e) {
+        }
+
+        JFrame frame = new JFrame("Karthik's Utility");
+
+        Hello demo = new Hello();
+        frame.setContentPane(demo.createContentPane());
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(550, 350);
+        frame.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        //Schedule a job for the event-dispatching thread:
+        //creating and showing this application's GUI.
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                createAndShowGUI();
+            }
+        });
+    }
+}
